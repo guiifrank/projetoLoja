@@ -4,4 +4,5 @@ public class Fornecedor {
     private String telefone;
     private String email;
 
+
 }
