@@ -13,11 +13,11 @@ public class Main {
         int opcao = sc.nextInt();
 
         switch (opcao) {
-            case 1:
+            case 1: //classe fornecedor vai chamar metodo com outras opcoes
                 break;
-            case 2:
+            case 2: //classe produto chama metodo
                 break;
-            case 3:
+            case 3: //classe estoque chama metodo
                 break;
             case 4:
                 break;
