@@ -48,4 +48,6 @@ public class Fornecedor {
         this.email = email;
     }
 
+    //METODOS PARA INLCUIR, ALTERAR, EXCLUIR E CONSULTAR (POR CODIGO E NOME)
+
 }
