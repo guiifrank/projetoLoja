@@ -1,3 +1,5 @@
+package model;
+
 public class Produto {
     private String name;
     private String descricao;

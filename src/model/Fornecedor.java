@@ -1,3 +1,5 @@
+package model;
+
 public class Fornecedor {
     private String name;
     private String descricao;
