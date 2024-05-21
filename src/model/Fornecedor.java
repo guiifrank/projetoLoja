@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fornecedor {
-    private String name;
+    private String name;  //PODE TER DADOS DUPLICADOS? ALGUMA CHAVE PRIMARIA?
     private String descricao;
     private String telefone;
     private String email;
     private int id;  //USUARIO PODE SETAR ID? OU SISTEMA SETA ID AO INLCUIR FORNECEDOR?
 
-    private List<Fornecedor> fornecedores = new ArrayList<>();
+    private List<Fornecedor> fornecedores = new ArrayList<>();  //PRECISA SER STATIC? FINAL?
 
     public Fornecedor() {
     }
