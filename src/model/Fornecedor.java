@@ -1,10 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Fornecedor {
-    private String name;
+    private String name;  //PODE TER DADOS DUPLICADOS? ALGUMA CHAVE PRIMARIA?
     private String descricao;
     private String telefone;
     private String email;
+    private int id;  //USUARIO PODE SETAR ID? OU SISTEMA SETA ID AO INLCUIR FORNECEDOR?
 
     public Fornecedor() {
     }
@@ -14,6 +18,14 @@ public class Fornecedor {
         this.descricao = descricao;
         this.telefone = telefone;
         this.email = email;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
