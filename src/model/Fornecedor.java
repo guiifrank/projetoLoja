@@ -10,17 +10,14 @@ public class Fornecedor {
     private String email;
     private int id;  //USUARIO PODE SETAR ID? OU SISTEMA SETA ID AO INLCUIR FORNECEDOR?
 
-    private List<Fornecedor> fornecedores = new ArrayList<>();  //PRECISA SER STATIC? FINAL?
-
     public Fornecedor() {
     }
 
-    public Fornecedor(String name, String descricao, String telefone, String email, int id) {
+    public Fornecedor(String name, String descricao, String telefone, String email) {
         this.name = name;
         this.descricao = descricao;
         this.telefone = telefone;
         this.email = email;
-        this.id = id;
     }
 
     public int getId() {
