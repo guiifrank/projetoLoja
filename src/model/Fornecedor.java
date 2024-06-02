@@ -1,19 +1,17 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Fornecedor {
-    private String name;  //PODE TER DADOS DUPLICADOS? ALGUMA CHAVE PRIMARIA?
+    private String name;
     private String descricao;
     private String telefone;
     private String email;
-    private int id;  //USUARIO PODE SETAR ID? OU SISTEMA SETA ID AO INLCUIR FORNECEDOR?
+    private int id;
 
     public Fornecedor() {
     }
 
-    public Fornecedor(String name, String descricao, String telefone, String email) {
+    public Fornecedor(int id, String name, String descricao, String telefone, String email) {
+        this.id = id;
         this.name = name;
         this.descricao = descricao;
         this.telefone = telefone;
@@ -60,6 +58,9 @@ public class Fornecedor {
         this.email = email;
     }
 
-    //METODOS PARA INLCUIR, ALTERAR, EXCLUIR E CONSULTAR (POR CODIGO E NOME)
+    @Override
+    public String toString() {
+        return "Fornecedor [id=" + id + ", nome=" + name + ", contato=" + telefone + email + "]";
+    }
 
 }
