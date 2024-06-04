@@ -1,4 +1,4 @@
-Será implementado um sistema de pedidos de uma loja
+### Será implementado um sistema de pedidos de uma loja.
 
 ### Cadastros de fornecedores:
 - Cadastro de produtos, relacionando-os aos fornecedores.
