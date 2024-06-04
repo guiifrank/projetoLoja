@@ -13,25 +13,37 @@ public class FornecedorService {
         this.fornecedores = new ArrayList<>();
     }
 
-    public void adicionarFornecedor(Fornecedor fornecedor) {
+    public boolean adicionarFornecedor(Fornecedor fornecedor) {
+        for (Fornecedor f : fornecedores) {
+            if (f.getId() == fornecedor.getId()) {
+                return false; // ID já existe
+            }
+        }
         fornecedores.add(fornecedor);
+        return true;
     }
 
-    public void alterarFornecedor(Fornecedor fornecedor) {
+    public boolean alterarFornecedor(Fornecedor fornecedor) {
         for (int i = 0; i < fornecedores.size(); i++) {
             if (fornecedores.get(i).getId() == fornecedor.getId()) {
                 fornecedores.set(i, fornecedor);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
-    public void excluirFornecedor(int id) {
-        fornecedores.removeIf(fornecedor -> fornecedor.getId() == id);
+    public boolean excluirFornecedor(int id) {
+        return fornecedores.removeIf(fornecedor -> fornecedor.getId() == id);
     }
 
-    public Optional<Fornecedor> consultarFornecedorPorId(int id) {
-        return fornecedores.stream().filter(fornecedor -> fornecedor.getId() == id).findFirst();
+    public Fornecedor consultarFornecedorPorId(int id) {
+        for (Fornecedor fornecedor : fornecedores) {
+            if (fornecedor.getId() == id) {
+                return fornecedor;
+            }
+        }
+        return null;
     }
 
     public List<Fornecedor> consultarFornecedorPorNome(String nome) {

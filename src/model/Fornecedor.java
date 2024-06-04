@@ -60,7 +60,7 @@ public class Fornecedor {
 
     @Override
     public String toString() {
-        return "Fornecedor : ID = " + id + ", Nome = " + name + ", Descricao = " + descricao + ", Telefone = " + telefone + ", Email = " + email;
+        return "Fornecedor : ID = " + id + ", Nome = " + name + ", Descrição = " + descricao + ", Telefone = " + telefone + ", Email = " + email;
     }
 
 }
