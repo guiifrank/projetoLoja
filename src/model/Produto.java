@@ -3,20 +3,17 @@ package model;
 public class Produto {
     private String name;
     private String descricao;
-    private byte[] foto;
+//    private byte[] foto;
     private int id;
     private Fornecedor fornecedor;
     private int quantEstoque;
 
-    public Produto(){
-    }
-
-    public Produto(int id, String name, Fornecedor fornecedor ,String descricao, byte[] foto) {
+    public Produto(int id, String name, Fornecedor fornecedor ,String descricao) {
         this.id = id;
         this.name = name;
         this.fornecedor = fornecedor;
         this.descricao = descricao;
-        this.foto = foto;
+//        this.foto = foto;
     }
 
     public int getId() {
@@ -51,13 +48,13 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public byte[] getFoto() {
-        return foto;
-    }
-
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
-    }
+//    public byte[] getFoto() {
+//        return foto;
+//    }
+//
+//    public void setFoto(byte[] foto) {
+//        this.foto = foto;
+//    }
 
     public int getQuantEstoque() {
         return quantEstoque;
@@ -69,7 +66,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "Produto [id=" + id + ", nome=" + name + ", fornecedor=" + fornecedor + ", quantidadeEmEstoque=" + quantEstoque + "]";
+        return "Produto : ID = " + id + ", Nome = " + name + ", [" + fornecedor + "], Quantidade em estoque = " + quantEstoque;
     }
 
 }

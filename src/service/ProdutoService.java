@@ -13,25 +13,37 @@ public class ProdutoService {
         this.produtos = new ArrayList<>();
     }
 
-    public void adicionarProduto(Produto produto) {
+    public boolean adicionarProduto(Produto produto) {
+        for (Produto p : produtos) {
+            if (p.getId() == produto.getId()) {
+                return false;
+            }
+        }
         produtos.add(produto);
+        return true;
     }
 
-    public void alterarProduto(Produto produto) {
+    public boolean alterarProduto(Produto produto) {
         for (int i = 0; i < produtos.size(); i++) {
             if (produtos.get(i).getId() == produto.getId()) {
                 produtos.set(i, produto);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
-    public void excluirProduto(int id) {
-        produtos.removeIf(produto -> produto.getId() == id);
+    public boolean excluirProduto(int id) {
+        return produtos.removeIf(produto -> produto.getId() == id);
     }
 
-    public Optional<Produto> consultarProdutoPorId(int id) {
-        return produtos.stream().filter(produto -> produto.getId() == id).findFirst();
+    public Produto consultarProdutoPorId(int id) {
+        for (Produto produto : produtos) {
+            if (produto.getId() == id) {
+                return produto;
+            }
+        }
+        return null; 
     }
 
     public List<Produto> consultarProdutoPorNome(String nome) {

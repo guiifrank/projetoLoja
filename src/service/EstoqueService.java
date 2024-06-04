@@ -2,30 +2,39 @@ package service;
 
 import model.Produto;
 
-import java.util.Optional;
-
 public class EstoqueService {
     private ProdutoService produtoService;
 
-    public EstoqueService(ProdutoService produtoManager) {
-        this.produtoService = produtoManager;
+    public EstoqueService(ProdutoService produtoService) {
+        this.produtoService = produtoService;
     }
 
-    public void adicionarEstoque(int produtoId, int quantidade) {
-        Optional<Produto> produtoOpt = produtoService.consultarProdutoPorId(produtoId);
-        if (produtoOpt.isPresent()) {
-            Produto produto = produtoOpt.get();
+    public boolean adicionarEstoque(int produtoId, int quantidade) {
+        Produto produto = produtoService.consultarProdutoPorId(produtoId);
+        if (produto != null) {
             produto.setQuantEstoque(produto.getQuantEstoque() + quantidade);
             produtoService.alterarProduto(produto);
+            return true;
+        } else {
+            System.out.println("Produto não encontrado. Estoque não adicionado.");
+            return false;
         }
     }
 
-    public void removerEstoque(int produtoId, int quantidade) {
-        Optional<Produto> produtoOpt = produtoService.consultarProdutoPorId(produtoId);
-        if (produtoOpt.isPresent()) {
-            Produto produto = produtoOpt.get();
-            produto.setQuantEstoque(produto.getQuantEstoque() - quantidade);
-            produtoService.alterarProduto(produto);
+    public boolean removerEstoque(int produtoId, int quantidade) {
+        Produto produto = produtoService.consultarProdutoPorId(produtoId);
+        if (produto != null) {
+            if (produto.getQuantEstoque() >= quantidade) {
+                produto.setQuantEstoque(produto.getQuantEstoque() - quantidade);
+                produtoService.alterarProduto(produto);
+                return true;
+            } else {
+                System.out.println("Quantidade em estoque insuficiente. Estoque não removido.");
+                return false;
+            }
+        } else {
+            System.out.println("Produto não encontrado. Estoque não removido.");
+            return false;
         }
     }
 }
