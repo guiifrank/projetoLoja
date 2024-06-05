@@ -1,10 +1,8 @@
 package service;
 
 import model.Fornecedor;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class FornecedorService {
     private List<Fornecedor> fornecedores;
@@ -16,7 +14,7 @@ public class FornecedorService {
     public boolean adicionarFornecedor(Fornecedor fornecedor) {
         for (Fornecedor f : fornecedores) {
             if (f.getId() == fornecedor.getId()) {
-                return false; // ID já existe
+                return false;
             }
         }
         fornecedores.add(fornecedor);

@@ -62,5 +62,4 @@ public class Fornecedor {
     public String toString() {
         return "Fornecedor : ID = " + id + ", Nome = " + name + ", Descrição = " + descricao + ", Telefone = " + telefone + ", Email = " + email;
     }
-
 }
