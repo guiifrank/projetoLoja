@@ -6,16 +6,18 @@ public class Fornecedor {
     private String telefone;
     private String email;
     private int id;
+    private Endereco endereco;
 
     public Fornecedor() {
     }
 
-    public Fornecedor(int id, String name, String descricao, String telefone, String email) {
+    public Fornecedor(int id, String name, String descricao, String telefone, String email, Endereco endereco) {
         this.id = id;
         this.name = name;
         this.descricao = descricao;
         this.telefone = telefone;
         this.email = email;
+        this.endereco = endereco;
     }
 
     public int getId() {
@@ -58,8 +60,21 @@ public class Fornecedor {
         this.email = email;
     }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
     @Override
     public String toString() {
-        return "Fornecedor : ID = " + id + ", Nome = " + name + ", Descrição = " + descricao + ", Telefone = " + telefone + ", Email = " + email;
+        return "Fornecedor: ID = " + id +
+                ", Nome = " + name +
+                ", Descrição = " + descricao +
+                ", Telefone = " + telefone +
+                ", Email = " + email +
+                 ", " + endereco;
     }
 }

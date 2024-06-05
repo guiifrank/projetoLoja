@@ -1,5 +1,6 @@
 package ui;
 
+import model.Endereco;
 import model.Fornecedor;
 import model.Produto;
 import service.EstoqueService;
@@ -85,40 +86,45 @@ public class Main {
     }
 
     private static void adicionarFornecedor() {
-        System.out.print("ID: ");
+        System.out.print("ID do Fornecedor: ");
         int id = Integer.parseInt(sc.nextLine());
         System.out.print("Nome: ");
-        String name = sc.nextLine();
+        String nome = sc.nextLine();
         System.out.print("Descrição: ");
         String descricao = sc.nextLine();
-        System.out.println("Telefone: ");
+        System.out.print("Telefone: ");
         String telefone = sc.nextLine();
-        System.out.println("Email: ");
+        System.out.print("Email: ");
         String email = sc.nextLine();
-        if (fornecedorService.adicionarFornecedor(new Fornecedor(id, name, descricao, telefone, email))) {
-            System.out.println("Fornecedor adicionado com sucesso.");
-        } else {
-            System.out.println("ID já existe. Fornecedor não adicionado.");
-        }
+        System.out.println("Endereço do Fornecedor:");
+        Endereco endereco = criarEndereco();
+        fornecedorService.adicionarFornecedor(new Fornecedor(id, nome, descricao, telefone, email, endereco));
+        System.out.println("Fornecedor adicionado com sucesso.");
     }
 
+
     private static void alterarFornecedor() {
-        System.out.print("ID do Fornecedor a ser alterado: ");
+        System.out.print("ID do Fornecedor: ");
         int id = Integer.parseInt(sc.nextLine());
-        System.out.print("Novo Nome: ");
-        String name = sc.nextLine();
-        System.out.print("Nova Descrição: ");
-        String descricao = sc.nextLine();
-        System.out.print("Novo Telefone: ");
-        String telefone = sc.nextLine();
-        System.out.print("Novo Email: ");
-        String email = sc.nextLine();
-        if (fornecedorService.alterarFornecedor(new Fornecedor(id, name, descricao, telefone, email))) {
-            System.out.println("Fornecedor alterado com sucesso.");
-        } else {
+        Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
+        if (fornecedor == null) {
             System.out.println("Fornecedor não encontrado.");
+            return;
         }
+        System.out.print("Novo Nome: ");
+        fornecedor.setName(sc.nextLine());
+        System.out.print("Nova Descrição: ");
+        fornecedor.setDescricao(sc.nextLine());
+        System.out.print("Novo Telefone: ");
+        fornecedor.setTelefone(sc.nextLine());
+        System.out.print("Novo Email: ");
+        fornecedor.setEmail(sc.nextLine());
+        System.out.println("Novo Endereço do Fornecedor:");
+        fornecedor.setEndereco(criarEndereco());
+        fornecedorService.alterarFornecedor(fornecedor);
+        System.out.println("Fornecedor alterado com sucesso.");
     }
+
 
     private static void excluirFornecedor() {
         System.out.print("ID do Fornecedor a ser excluído: ");
@@ -274,6 +280,25 @@ public class Main {
             System.out.println(produto);
         }
     }
+
+    private static Endereco criarEndereco() {
+        System.out.print("Rua: ");
+        String rua = sc.nextLine();
+        System.out.print("Número: ");
+        String numero = sc.nextLine();
+        System.out.print("Complemento: ");
+        String complemento = sc.nextLine();
+        System.out.print("Bairro: ");
+        String bairro = sc.nextLine();
+        System.out.print("CEP: ");
+        String cep = sc.nextLine();
+        System.out.print("Cidade: ");
+        String cidade = sc.nextLine();
+        System.out.print("Estado: ");
+        String estado = sc.nextLine();
+        return new Endereco(rua, numero, complemento, bairro, cep, cidade, estado);
+    }
+
 
     private static void gerenciarEstoque() {
         while (true) {
