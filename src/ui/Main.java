@@ -5,7 +5,6 @@ import model.Produto;
 import service.EstoqueService;
 import service.FornecedorService;
 import service.ProdutoService;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -211,8 +210,6 @@ public class Main {
         }
         System.out.println("Descrição: ");
         String descricao = sc.nextLine();
-//        System.out.print("Quantidade em Estoque: ");
-//        int quantidade = Integer.parseInt(sc.nextLine());
         if (produtoService.adicionarProduto(new Produto(id, name, fornecedor, descricao))) {
             System.out.println("Produto adicionado com sucesso.");
         } else {
@@ -234,8 +231,6 @@ public class Main {
         }
         System.out.println("Descrição: ");
         String descricao = sc.nextLine();
-//        System.out.print("Quantidade em Estoque: ");
-//        int quantidade = Integer.parseInt(sc.nextLine());
         if (produtoService.alterarProduto(new Produto(id, name, fornecedor, descricao))) {
             System.out.println("Produto alterado com sucesso.");
         } else {

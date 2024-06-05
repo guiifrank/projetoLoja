@@ -27,6 +27,4 @@ public class Estoque {
     public void setPreco(Double preco) {
         this.preco = preco;
     }
-
-
 }

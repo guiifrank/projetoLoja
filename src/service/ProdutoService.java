@@ -1,10 +1,8 @@
 package service;
 
 import model.Produto;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ProdutoService {
     private List<Produto> produtos;
@@ -43,7 +41,7 @@ public class ProdutoService {
                 return produto;
             }
         }
-        return null; 
+        return null;
     }
 
     public List<Produto> consultarProdutoPorNome(String nome) {
