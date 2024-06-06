@@ -104,7 +104,11 @@ public class Main {
 
 
     private static void alterarFornecedor() {
-        System.out.print("ID do Fornecedor: ");
+        List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
+        for (Fornecedor fornecedor : fornecedores) {
+            System.out.println(fornecedor);
+        }
+        System.out.print("ID do Fornecedor a ser alterado: ");
         int id = Integer.parseInt(sc.nextLine());
         Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
         if (fornecedor == null) {
@@ -127,6 +131,10 @@ public class Main {
 
 
     private static void excluirFornecedor() {
+        List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
+        for (Fornecedor fornecedor : fornecedores) {
+            System.out.println(fornecedor);
+        }
         System.out.print("ID do Fornecedor a ser excluído: ");
         int id = Integer.parseInt(sc.nextLine());
         if (fornecedorService.excluirFornecedor(id)) {
