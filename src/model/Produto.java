@@ -3,7 +3,6 @@ package model;
 public class Produto {
     private String name;
     private String descricao;
-//    private byte[] foto;
     private int id;
     private Fornecedor fornecedor;
     private int quantEstoque;
@@ -13,7 +12,6 @@ public class Produto {
         this.name = name;
         this.fornecedor = fornecedor;
         this.descricao = descricao;
-//        this.foto = foto;
     }
 
     public int getId() {
@@ -47,14 +45,6 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
-
-//    public byte[] getFoto() {
-//        return foto;
-//    }
-//
-//    public void setFoto(byte[] foto) {
-//        this.foto = foto;
-//    }
 
     public int getQuantEstoque() {
         return quantEstoque;
