@@ -5,6 +5,7 @@ public class Produto {
     private String descricao;
     private int id;
     private Fornecedor fornecedor;
+    private Estoque estoque;
     private int quantEstoque;
 
     public Produto(int id, String name, Fornecedor fornecedor ,String descricao) {

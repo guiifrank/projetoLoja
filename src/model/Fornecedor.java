@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class Fornecedor {
     private String name;
     private String descricao;
@@ -7,6 +9,7 @@ public class Fornecedor {
     private String email;
     private int id;
     private Endereco endereco;
+    private List<Produto> produtos;
 
     public Fornecedor() {
     }
