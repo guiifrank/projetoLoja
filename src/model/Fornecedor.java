@@ -2,7 +2,7 @@ package model;
 
 import java.util.List;
 
-public class Fornecedor {
+public class Fornecedor extends Pessoa {
     private String name;
     private String descricao;
     private String telefone;
