@@ -78,6 +78,7 @@ public class Menu {
             System.out.println("3. Remover Fornecedor");
             System.out.println("4. Consultar Fornecedor por ID");
             System.out.println("5. Consultar Fornecedor por Nome");
+            System.out.println("6. Alterar elemento de Fornecedor");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -97,6 +98,9 @@ public class Menu {
                     break;
                 case 5:
                     consultarFornecedorPorNome();
+                    break;
+                case 6:
+                    menuAtualizarElemento();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -664,6 +668,57 @@ public class Menu {
             }
         } else {
             System.out.println("Pedido não encontrado.");
+        }
+    }
+    private void menuAtualizarElemento() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Fornecedor: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
+
+        if (fornecedor != null) {
+            System.out.println("Fornecedor encontrado: " + fornecedor);
+            System.out.println("Escolha o campo a ser atualizado:");
+            System.out.println("1. Nome");
+            System.out.println("2. Descrição");
+            System.out.println("3. Telefone");
+            System.out.println("4. Email");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Novo Nome: ");
+                    String novoNome = scanner.nextLine();
+                    fornecedor.setNome(novoNome);
+                    break;
+                case 2:
+                    System.out.print("Nova Descrição: ");
+                    String novaDescricao = scanner.nextLine();
+                    fornecedor.setDescricao(novaDescricao);
+                    break;
+                case 3:
+                    System.out.print("Novo Telefone: ");
+                    String novoTelefone = scanner.nextLine();
+                    fornecedor.setTelefone(novoTelefone);
+                    break;
+                case 4:
+                    System.out.print("Novo Email: ");
+                    String novoEmail = scanner.nextLine();
+                    fornecedor.setEmail(novoEmail);
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    return;
+            }
+
+            fornecedorService.atualizarFornecedor(fornecedor);
+            System.out.println("Elemento atualizado com sucesso.");
+        } else {
+            System.out.println("Fornecedor não encontrado.");
         }
     }
 
