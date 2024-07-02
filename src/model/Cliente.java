@@ -1,36 +1,29 @@
 package model;
 
-public class Cliente extends Pessoa {
-    private String name;
-    private String email;
+import java.io.Serializable;
+
+public class Cliente implements Serializable {
+    private int id;
+    private String nome;
     private String telefone;
+    private String email;
     private String cartaoCredito;
-    private Endereco endereco;
+    private String endereco;
 
-    public Cliente() {
+    public int getId() {
+        return id;
     }
 
-    public Cliente(String name, String email, String telefone, String cartaoCredito) {
-        this.name = name;
-        this.email = email;
-        this.telefone = telefone;
-        this.cartaoCredito = cartaoCredito;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -41,6 +34,14 @@ public class Cliente extends Pessoa {
         this.telefone = telefone;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getCartaoCredito() {
         return cartaoCredito;
     }
@@ -49,13 +50,11 @@ public class Cliente extends Pessoa {
         this.cartaoCredito = cartaoCredito;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", cartaoCredito='" + cartaoCredito + '\'' +
-                '}';
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

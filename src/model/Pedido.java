@@ -1,29 +1,32 @@
 package model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class Pedido {
-    private Integer pedido;
+public class Pedido implements Serializable {
+    private int id;
+    private Cliente cliente;
     private Date dataPedido;
     private Date dataEntrega;
     private String situacao;
+    private List<ItemPedido> itens = new ArrayList<>();
 
-    public Pedido() {
+    public int getId() {
+        return id;
     }
 
-    public Pedido(Integer pedido, Date dataPedido, Date dataEntrega, String situacao) {
-        this.pedido = pedido;
-        this.dataPedido = dataPedido;
-        this.dataEntrega = dataEntrega;
-        this.situacao = situacao;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getPedido() {
-        return pedido;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setPedido(Integer pedido) {
-        this.pedido = pedido;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Date getDataPedido() {
@@ -50,13 +53,15 @@ public class Pedido {
         this.situacao = situacao;
     }
 
-    @Override
-    public String toString() {
-        return "Pedido{" +
-                "pedido=" + pedido +
-                ", dataPedido=" + dataPedido +
-                ", dataEntrega=" + dataEntrega +
-                ", situacao='" + situacao + '\'' +
-                '}';
+    public List<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    public void adicionarItem(ItemPedido item) {
+        this.itens.add(item);
     }
 }

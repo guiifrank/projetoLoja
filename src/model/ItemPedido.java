@@ -1,30 +1,37 @@
 package model;
 
-public class ItemPedido {
-    private Integer quantidade;
-    private Double valor;
+import java.io.Serializable;
 
-    public ItemPedido() {
+public class ItemPedido implements Serializable {
+    private Produto produto;
+    private int quantidade;
+    private double preco;
+
+    public Produto getProduto() {
+        return produto;
     }
 
-    public ItemPedido(Integer quantidade, Double valor) {
-        this.quantidade = quantidade;
-        this.valor = valor;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
-    public Integer getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
-    public Double getValor() {
-        return valor;
+    public double getPreco() {
+        return preco;
     }
 
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
+    public double getTotal() {
+        return quantidade * preco;
     }
 }

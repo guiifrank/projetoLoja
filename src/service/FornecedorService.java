@@ -1,6 +1,8 @@
 package service;
 
 import model.Fornecedor;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,31 +10,28 @@ public class FornecedorService {
     private List<Fornecedor> fornecedores;
 
     public FornecedorService() {
-        this.fornecedores = new ArrayList<>();
+        fornecedores = new ArrayList<>();
     }
 
-    public boolean adicionarFornecedor(Fornecedor fornecedor) {
-        for (Fornecedor f : fornecedores) {
-            if (f.getId() == fornecedor.getId()) {
-                return false;
-            }
-        }
+    public void adicionarFornecedor(Fornecedor fornecedor) {
         fornecedores.add(fornecedor);
-        return true;
     }
 
-    public boolean alterarFornecedor(Fornecedor fornecedor) {
-        for (int i = 0; i < fornecedores.size(); i++) {
-            if (fornecedores.get(i).getId() == fornecedor.getId()) {
-                fornecedores.set(i, fornecedor);
-                return true;
-            }
+    public void atualizarFornecedor(Fornecedor fornecedor) {
+        Fornecedor fornecedorExistente = consultarFornecedorPorId(fornecedor.getId());
+        if (fornecedorExistente != null) {
+            fornecedorExistente.setNome(fornecedor.getNome());
+            fornecedorExistente.setDescricao(fornecedor.getDescricao());
+            fornecedorExistente.setTelefone(fornecedor.getTelefone());
+            fornecedorExistente.setEmail(fornecedor.getEmail());
         }
-        return false;
     }
 
-    public boolean excluirFornecedor(int id) {
-        return fornecedores.removeIf(fornecedor -> fornecedor.getId() == id);
+    public void removerFornecedor(int id) {
+        Fornecedor fornecedor = consultarFornecedorPorId(id);
+        if (fornecedor != null) {
+            fornecedores.remove(fornecedor);
+        }
     }
 
     public Fornecedor consultarFornecedorPorId(int id) {
@@ -47,14 +46,25 @@ public class FornecedorService {
     public List<Fornecedor> consultarFornecedorPorNome(String nome) {
         List<Fornecedor> resultado = new ArrayList<>();
         for (Fornecedor fornecedor : fornecedores) {
-            if (fornecedor.getName().equalsIgnoreCase(nome)) {
+            if (fornecedor.getNome().contains(nome)) {
                 resultado.add(fornecedor);
             }
         }
         return resultado;
     }
 
-    public List<Fornecedor> listarFornecedores() {
-        return fornecedores;
+    public void salvarFornecedores() throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("fornecedores.dat"))) {
+            oos.writeObject(fornecedores);
+        }
+    }
+
+    public void carregarFornecedores() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("fornecedores.dat"))) {
+            fornecedores = (List<Fornecedor>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            // Arquivo não encontrado, iniciar com lista vazia
+            fornecedores = new ArrayList<>();
+        }
     }
 }

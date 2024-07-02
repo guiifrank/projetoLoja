@@ -1,6 +1,7 @@
 package service;
 
 import model.Produto;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,31 +9,28 @@ public class ProdutoService {
     private List<Produto> produtos;
 
     public ProdutoService() {
-        this.produtos = new ArrayList<>();
+        produtos = new ArrayList<>();
     }
 
-    public boolean adicionarProduto(Produto produto) {
-        for (Produto p : produtos) {
-            if (p.getId() == produto.getId()) {
-                return false;
-            }
-        }
+    public void adicionarProduto(Produto produto) {
         produtos.add(produto);
-        return true;
     }
 
-    public boolean alterarProduto(Produto produto) {
-        for (int i = 0; i < produtos.size(); i++) {
-            if (produtos.get(i).getId() == produto.getId()) {
-                produtos.set(i, produto);
-                return true;
-            }
+    public void atualizarProduto(Produto produto) {
+        Produto produtoExistente = consultarProdutoPorId(produto.getId());
+        if (produtoExistente != null) {
+            produtoExistente.setNome(produto.getNome());
+            produtoExistente.setDescricao(produto.getDescricao());
+            produtoExistente.setFoto(produto.getFoto());
+            produtoExistente.setFornecedor(produto.getFornecedor());
         }
-        return false;
     }
 
-    public boolean excluirProduto(int id) {
-        return produtos.removeIf(produto -> produto.getId() == id);
+    public void removerProduto(int id) {
+        Produto produto = consultarProdutoPorId(id);
+        if (produto != null) {
+            produtos.remove(produto);
+        }
     }
 
     public Produto consultarProdutoPorId(int id) {
@@ -47,14 +45,25 @@ public class ProdutoService {
     public List<Produto> consultarProdutoPorNome(String nome) {
         List<Produto> resultado = new ArrayList<>();
         for (Produto produto : produtos) {
-            if (produto.getName().equalsIgnoreCase(nome)) {
+            if (produto.getNome().contains(nome)) {
                 resultado.add(produto);
             }
         }
         return resultado;
     }
 
-    public List<Produto> listarProdutos() {
-        return produtos;
+    public void salvarProdutos() throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("produtos.dat"))) {
+            oos.writeObject(produtos);
+        }
+    }
+
+    public void carregarProdutos() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("produtos.dat"))) {
+            produtos = (List<Produto>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            // Arquivo não encontrado, iniciar com lista vazia
+            produtos = new ArrayList<>();
+        }
     }
 }

@@ -1,19 +1,13 @@
 package model;
 
-public class Produto {
-    private String name;
-    private String descricao;
-    private int id;
-    private Fornecedor fornecedor;
-    private Estoque estoque;
-    private int quantEstoque;
+import java.io.Serializable;
 
-    public Produto(int id, String name, Fornecedor fornecedor ,String descricao) {
-        this.id = id;
-        this.name = name;
-        this.fornecedor = fornecedor;
-        this.descricao = descricao;
-    }
+public class Produto implements Serializable {
+    private int id;
+    private String nome;
+    private String descricao;
+    private byte[] foto;
+    private Fornecedor fornecedor;
 
     public int getId() {
         return id;
@@ -23,20 +17,12 @@ public class Produto {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Fornecedor getFornecedor() {
-        return fornecedor;
-    }
-
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
@@ -47,16 +33,19 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public int getQuantEstoque() {
-        return quantEstoque;
+    public byte[] getFoto() {
+        return foto;
     }
 
-    public void setQuantEstoque(int quantEstoque) {
-        this.quantEstoque = quantEstoque;
+    public void setFoto(byte[] foto) {
+        this.foto = foto;
     }
 
-    @Override
-    public String toString() {
-        return "Produto : ID = " + id + ", Nome = " + name + ", [" + fornecedor + "], Quantidade em estoque = " + quantEstoque;
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 }

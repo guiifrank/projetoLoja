@@ -1,74 +1,96 @@
 package ui;
 
-import model.Endereco;
-import model.Fornecedor;
-import model.Produto;
-import service.EstoqueService;
-import service.FornecedorService;
-import service.ProdutoService;
-
+import model.*;
+import service.*;
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private static FornecedorService fornecedorService = new FornecedorService();
-    private static ProdutoService produtoService = new ProdutoService();
-    private static EstoqueService estoqueService = new EstoqueService(produtoService);
-    private static Scanner sc = new Scanner(System.in);
+    private FornecedorService fornecedorService;
+    private ProdutoService produtoService;
+    private EstoqueService estoqueService;
+    private ClienteService clienteService;
+    private PedidoService pedidoService;
 
+    public Menu() {
+        fornecedorService = new FornecedorService();
+        produtoService = new ProdutoService();
+        estoqueService = new EstoqueService();
+        clienteService = new ClienteService();
+        pedidoService = new PedidoService();
+        carregarDados();
+    }
 
-    public void executaMenu() {
-        while (true) {
-            exibirMenuPrincipal();
-            int opcao = Integer.parseInt(sc.nextLine());
+    public void exibirMenu() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("Menu:");
+            System.out.println("1. Cadastro de Fornecedores");
+            System.out.println("2. Cadastro de Produtos");
+            System.out.println("3. Manutenção de Estoque");
+            System.out.println("4. Cadastro de Clientes");
+            System.out.println("5. Realizar Pedido");
+            System.out.println("6. Consultar Pedido");
+            System.out.println("0. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
             switch (opcao) {
                 case 1:
-                    gerenciarFornecedores();
+                    menuFornecedores();
                     break;
                 case 2:
-                    gerenciarProdutos();
+                    menuProdutos();
                     break;
                 case 3:
-                    gerenciarEstoque();
+                    menuEstoque();
+                    break;
+                case 4:
+                    menuClientes();
+                    break;
+                case 5:
+                    menuRealizarPedido();
+                    break;
+                case 6:
+                    menuConsultarPedido();
                     break;
                 case 0:
-                    System.exit(0);
+                    salvarDados();
+                    System.out.println("Saindo...");
+                    break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida. Tente novamente.");
             }
-        }
+        } while (opcao != 0);
     }
 
-    private static void exibirMenuPrincipal() {
-        System.out.println("Menu Principal");
-        System.out.println("1. Gerenciar Fornecedores");
-        System.out.println("2. Gerenciar Produtos");
-        System.out.println("3. Gerenciar Estoque");
-        System.out.println("0. Sair");
-        System.out.print("Escolha uma opção: ");
-    }
+    private void menuFornecedores() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
 
-    private static void gerenciarFornecedores() {
-        while (true) {
-            System.out.println("Menu Fornecedores");
+        do {
+            System.out.println("Cadastro de Fornecedores:");
             System.out.println("1. Adicionar Fornecedor");
-            System.out.println("2. Alterar Fornecedor");
-            System.out.println("3. Excluir Fornecedor");
+            System.out.println("2. Atualizar Fornecedor");
+            System.out.println("3. Remover Fornecedor");
             System.out.println("4. Consultar Fornecedor por ID");
             System.out.println("5. Consultar Fornecedor por Nome");
-            System.out.println("6. Listar Fornecedores");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
-            int opcao = Integer.parseInt(sc.nextLine());
+            opcao = scanner.nextInt();
+
             switch (opcao) {
                 case 1:
                     adicionarFornecedor();
                     break;
                 case 2:
-                    alterarFornecedor();
+                    atualizarFornecedor();
                     break;
                 case 3:
-                    excluirFornecedor();
+                    removerFornecedor();
                     break;
                 case 4:
                     consultarFornecedorPorId();
@@ -76,124 +98,130 @@ public class Menu {
                 case 5:
                     consultarFornecedorPorNome();
                     break;
-                case 6:
-                    listarFornecedores();
-                    break;
                 case 0:
-                    return;
+                    System.out.println("Voltando ao menu principal...");
+                    break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida. Tente novamente.");
             }
-        }
+        } while (opcao != 0);
     }
 
-    private static void adicionarFornecedor() {
-        System.out.print("ID do Fornecedor: ");
-        int id = Integer.parseInt(sc.nextLine());
+    private void adicionarFornecedor() {
+        Scanner scanner = new Scanner(System.in);
+
         System.out.print("Nome: ");
-        String nome = sc.nextLine();
+        String nome = scanner.nextLine();
         System.out.print("Descrição: ");
-        String descricao = sc.nextLine();
+        String descricao = scanner.nextLine();
         System.out.print("Telefone: ");
-        String telefone = sc.nextLine();
+        String telefone = scanner.nextLine();
         System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.println("Endereço do Fornecedor:");
-        Endereco endereco = criarEndereco();
-        fornecedorService.adicionarFornecedor(new Fornecedor(id, nome, descricao, telefone, email, endereco));
+        String email = scanner.nextLine();
+
+        Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setNome(nome);
+        fornecedor.setDescricao(descricao);
+        fornecedor.setTelefone(telefone);
+        fornecedor.setEmail(email);
+
+        fornecedorService.adicionarFornecedor(fornecedor);
         System.out.println("Fornecedor adicionado com sucesso.");
     }
 
+    private void atualizarFornecedor() {
+        Scanner scanner = new Scanner(System.in);
 
-    private static void alterarFornecedor() {
-        List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
-        for (Fornecedor fornecedor : fornecedores) {
-            System.out.println(fornecedor);
-        }
-        System.out.print("ID do Fornecedor a ser alterado: ");
-        int id = Integer.parseInt(sc.nextLine());
+        System.out.print("ID do Fornecedor: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do scanner
         Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
-        if (fornecedor == null) {
-            System.out.println("Fornecedor não encontrado.");
-            return;
-        }
-        System.out.print("Novo Nome: ");
-        fornecedor.setName(sc.nextLine());
-        System.out.print("Nova Descrição: ");
-        fornecedor.setDescricao(sc.nextLine());
-        System.out.print("Novo Telefone: ");
-        fornecedor.setTelefone(sc.nextLine());
-        System.out.print("Novo Email: ");
-        fornecedor.setEmail(sc.nextLine());
-        System.out.println("Novo Endereço do Fornecedor:");
-        fornecedor.setEndereco(criarEndereco());
-        fornecedorService.alterarFornecedor(fornecedor);
-        System.out.println("Fornecedor alterado com sucesso.");
-    }
 
-
-    private static void excluirFornecedor() {
-        List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
-        for (Fornecedor fornecedor : fornecedores) {
-            System.out.println(fornecedor);
-        }
-        System.out.print("ID do Fornecedor a ser excluído: ");
-        int id = Integer.parseInt(sc.nextLine());
-        if (fornecedorService.excluirFornecedor(id)) {
-            System.out.println("Fornecedor excluído com sucesso.");
-        } else {
-            System.out.println("Fornecedor não encontrado.");
-        }
-    }
-
-    private static void consultarFornecedorPorId() {
-        System.out.print("ID: ");
-        int id = Integer.parseInt(sc.nextLine());
-        Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
         if (fornecedor != null) {
-            System.out.println(fornecedor);
+            System.out.print("Novo Nome (atual: " + fornecedor.getNome() + "): ");
+            String nome = scanner.nextLine();
+            System.out.print("Nova Descrição (atual: " + fornecedor.getDescricao() + "): ");
+            String descricao = scanner.nextLine();
+            System.out.print("Novo Telefone (atual: " + fornecedor.getTelefone() + "): ");
+            String telefone = scanner.nextLine();
+            System.out.print("Novo Email (atual: " + fornecedor.getEmail() + "): ");
+            String email = scanner.nextLine();
+
+            fornecedor.setNome(nome);
+            fornecedor.setDescricao(descricao);
+            fornecedor.setTelefone(telefone);
+            fornecedor.setEmail(email);
+
+            fornecedorService.atualizarFornecedor(fornecedor);
+            System.out.println("Fornecedor atualizado com sucesso.");
         } else {
             System.out.println("Fornecedor não encontrado.");
         }
     }
 
-    private static void consultarFornecedorPorNome() {
-        System.out.print("Nome: ");
-        String nome = sc.nextLine();
+    private void removerFornecedor() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Fornecedor: ");
+        int id = scanner.nextInt();
+        fornecedorService.removerFornecedor(id);
+        System.out.println("Fornecedor removido com sucesso.");
+    }
+
+    private void consultarFornecedorPorId() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Fornecedor: ");
+        int id = scanner.nextInt();
+        Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
+
+        if (fornecedor != null) {
+            System.out.println("Fornecedor encontrado: " + fornecedor.getNome());
+        } else {
+            System.out.println("Fornecedor não encontrado.");
+        }
+    }
+
+    private void consultarFornecedorPorNome() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nome do Fornecedor: ");
+        String nome = scanner.nextLine();
         List<Fornecedor> fornecedores = fornecedorService.consultarFornecedorPorNome(nome);
-        for (Fornecedor fornecedor : fornecedores) {
-            System.out.println(fornecedor);
+
+        if (!fornecedores.isEmpty()) {
+            for (Fornecedor fornecedor : fornecedores) {
+                System.out.println("Fornecedor encontrado: " + fornecedor.getNome());
+            }
+        } else {
+            System.out.println("Nenhum fornecedor encontrado.");
         }
     }
 
-    private static void listarFornecedores() {
-        List<Fornecedor> fornecedores = fornecedorService.listarFornecedores();
-        for (Fornecedor fornecedor : fornecedores) {
-            System.out.println(fornecedor);
-        }
-    }
+    private void menuProdutos() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
 
-    private static void gerenciarProdutos() {
-        while (true) {
-            System.out.println("Menu Produtos");
+        do {
+            System.out.println("Cadastro de Produtos:");
             System.out.println("1. Adicionar Produto");
-            System.out.println("2. Alterar Produto");
-            System.out.println("3. Excluir Produto");
+            System.out.println("2. Atualizar Produto");
+            System.out.println("3. Remover Produto");
             System.out.println("4. Consultar Produto por ID");
             System.out.println("5. Consultar Produto por Nome");
-            System.out.println("6. Listar Produtos");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
-            int opcao = Integer.parseInt(sc.nextLine());
+            opcao = scanner.nextInt();
+
             switch (opcao) {
                 case 1:
                     adicionarProduto();
                     break;
                 case 2:
-                    alterarProduto();
+                    atualizarProduto();
                     break;
                 case 3:
-                    excluirProduto();
+                    removerProduto();
                     break;
                 case 4:
                     consultarProdutoPorId();
@@ -201,159 +229,470 @@ public class Menu {
                 case 5:
                     consultarProdutoPorNome();
                     break;
-                case 6:
-                    listarProdutos();
-                    break;
                 case 0:
-                    return;
+                    System.out.println("Voltando ao menu principal...");
+                    break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida. Tente novamente.");
             }
-        }
+        } while (opcao != 0);
     }
 
-    private static void adicionarProduto() {
-        System.out.print("ID: ");
-        int id = Integer.parseInt(sc.nextLine());
+    private void adicionarProduto() {
+        Scanner scanner = new Scanner(System.in);
+
         System.out.print("Nome: ");
-        String name = sc.nextLine();
+        String nome = scanner.nextLine();
+        System.out.print("Descrição: ");
+        String descricao = scanner.nextLine();
         System.out.print("ID do Fornecedor: ");
-        int fornecedorId = Integer.parseInt(sc.nextLine());
+        int fornecedorId = scanner.nextInt();
+
         Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(fornecedorId);
         if (fornecedor == null) {
             System.out.println("Fornecedor não encontrado.");
             return;
         }
-        System.out.println("Descrição: ");
-        String descricao = sc.nextLine();
-        if (produtoService.adicionarProduto(new Produto(id, name, fornecedor, descricao))) {
-            System.out.println("Produto adicionado com sucesso.");
-        } else {
-            System.out.println("ID já existe. Produto não adicionado.");
-        }
+
+        Produto produto = new Produto();
+        produto.setNome(nome);
+        produto.setDescricao(descricao);
+        produto.setFornecedor(fornecedor);
+
+        produtoService.adicionarProduto(produto);
+        System.out.println("Produto adicionado com sucesso.");
     }
 
-    private static void alterarProduto() {
-        System.out.print("ID do Produto a ser alterado: ");
-        int id = Integer.parseInt(sc.nextLine());
-        System.out.print("Novo Nome: ");
-        String name = sc.nextLine();
-        System.out.print("ID do Fornecedor: ");
-        int fornecedorId = Integer.parseInt(sc.nextLine());
-        Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(fornecedorId);
-        if (fornecedor == null) {
-            System.out.println("Fornecedor não encontrado.");
-            return;
-        }
-        System.out.println("Descrição: ");
-        String descricao = sc.nextLine();
-        if (produtoService.alterarProduto(new Produto(id, name, fornecedor, descricao))) {
-            System.out.println("Produto alterado com sucesso.");
-        } else {
-            System.out.println("Produto não encontrado.");
-        }
-    }
+    private void atualizarProduto() {
+        Scanner scanner = new Scanner(System.in);
 
-    private static void excluirProduto() {
-        System.out.print("ID do Produto a ser excluído: ");
-        int id = Integer.parseInt(sc.nextLine());
-        if (produtoService.excluirProduto(id)) {
-            System.out.println("Produto excluído com sucesso.");
-        } else {
-            System.out.println("Produto não encontrado.");
-        }
-    }
-
-    private static void consultarProdutoPorId() {
-        System.out.print("ID: ");
-        int id = Integer.parseInt(sc.nextLine());
+        System.out.print("ID do Produto: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do scanner
         Produto produto = produtoService.consultarProdutoPorId(id);
+
         if (produto != null) {
-            System.out.println(produto);
+            System.out.print("Novo Nome (atual: " + produto.getNome() + "): ");
+            String nome = scanner.nextLine();
+            System.out.print("Nova Descrição (atual: " + produto.getDescricao() + "): ");
+            String descricao = scanner.nextLine();
+            System.out.print("ID do novo Fornecedor (atual: " + produto.getFornecedor().getId() + "): ");
+            int fornecedorId = scanner.nextInt();
+
+            Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(fornecedorId);
+            if (fornecedor == null) {
+                System.out.println("Fornecedor não encontrado.");
+                return;
+            }
+
+            produto.setNome(nome);
+            produto.setDescricao(descricao);
+            produto.setFornecedor(fornecedor);
+
+            produtoService.atualizarProduto(produto);
+            System.out.println("Produto atualizado com sucesso.");
         } else {
             System.out.println("Produto não encontrado.");
         }
     }
 
-    private static void consultarProdutoPorNome() {
-        System.out.print("Nome: ");
-        String nome = sc.nextLine();
+    private void removerProduto() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Produto: ");
+        int id = scanner.nextInt();
+        produtoService.removerProduto(id);
+        System.out.println("Produto removido com sucesso.");
+    }
+
+    private void consultarProdutoPorId() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Produto: ");
+        int id = scanner.nextInt();
+        Produto produto = produtoService.consultarProdutoPorId(id);
+
+        if (produto != null) {
+            System.out.println("Produto encontrado: " + produto.getNome());
+        } else {
+            System.out.println("Produto não encontrado.");
+        }
+    }
+
+    private void consultarProdutoPorNome() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nome do Produto: ");
+        String nome = scanner.nextLine();
         List<Produto> produtos = produtoService.consultarProdutoPorNome(nome);
-        for (Produto produto : produtos) {
-            System.out.println(produto);
+
+        if (!produtos.isEmpty()) {
+            for (Produto produto : produtos) {
+                System.out.println("Produto encontrado: " + produto.getNome());
+            }
+        } else {
+            System.out.println("Nenhum produto encontrado.");
         }
     }
 
-    private static void listarProdutos() {
-        List<Produto> produtos = produtoService.listarProdutos();
-        for (Produto produto : produtos) {
-            System.out.println(produto);
-        }
-    }
+    private void menuEstoque() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
 
-    private static Endereco criarEndereco() {
-        System.out.print("Rua: ");
-        String rua = sc.nextLine();
-        System.out.print("Número: ");
-        String numero = sc.nextLine();
-        System.out.print("Complemento: ");
-        String complemento = sc.nextLine();
-        System.out.print("Bairro: ");
-        String bairro = sc.nextLine();
-        System.out.print("CEP: ");
-        String cep = sc.nextLine();
-        System.out.print("Cidade: ");
-        String cidade = sc.nextLine();
-        System.out.print("Estado: ");
-        String estado = sc.nextLine();
-        return new Endereco(rua, numero, complemento, bairro, cep, cidade, estado);
-    }
-
-
-    private static void gerenciarEstoque() {
-        while (true) {
-            System.out.println("Menu Estoque");
+        do {
+            System.out.println("Manutenção de Estoque:");
             System.out.println("1. Adicionar Estoque");
-            System.out.println("2. Remover Estoque");
+            System.out.println("2. Atualizar Estoque");
+            System.out.println("3. Remover Estoque");
+            System.out.println("4. Consultar Estoque por ID");
+            System.out.println("5. Consultar Estoque por Produto");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
-            int opcao = Integer.parseInt(sc.nextLine());
+            opcao = scanner.nextInt();
+
             switch (opcao) {
                 case 1:
                     adicionarEstoque();
                     break;
                 case 2:
+                    atualizarEstoque();
+                    break;
+                case 3:
                     removerEstoque();
                     break;
+                case 4:
+                    consultarEstoquePorId();
+                    break;
+                case 5:
+                    consultarEstoquePorProduto();
+                    break;
                 case 0:
-                    return;
+                    System.out.println("Voltando ao menu principal...");
+                    break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida. Tente novamente.");
             }
+        } while (opcao != 0);
+    }
+
+    private void adicionarEstoque() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Produto: ");
+        int produtoId = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do scanner
+        System.out.print("Quantidade: ");
+        int quantidade = scanner.nextInt();
+        System.out.print("Preço: ");
+        double preco = scanner.nextDouble();
+
+        Produto produto = produtoService.consultarProdutoPorId(produtoId);
+        if (produto == null) {
+            System.out.println("Produto não encontrado.");
+            return;
+        }
+
+        Estoque estoque = new Estoque();
+        estoque.setProduto(produto);
+        estoque.setQuantidade(quantidade);
+        estoque.setPreco(preco);
+
+        estoqueService.adicionarEstoque(estoque);
+        System.out.println("Estoque adicionado com sucesso.");
+    }
+
+    private void atualizarEstoque() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Estoque: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do scanner
+        Estoque estoque = estoqueService.consultarEstoquePorId(id);
+
+        if (estoque != null) {
+            System.out.print("Nova Quantidade (atual: " + estoque.getQuantidade() + "): ");
+            int quantidade = scanner.nextInt();
+            System.out.print("Novo Preço (atual: " + estoque.getPreco() + "): ");
+            double preco = scanner.nextDouble();
+
+            estoque.setQuantidade(quantidade);
+            estoque.setPreco(preco);
+
+            estoqueService.atualizarEstoque(estoque);
+            System.out.println("Estoque atualizado com sucesso.");
+        } else {
+            System.out.println("Estoque não encontrado.");
         }
     }
 
-    private static void adicionarEstoque() {
-        System.out.print("ID do Produto: ");
-        int produtoId = Integer.parseInt(sc.nextLine());
-        System.out.print("Quantidade a ser adicionada: ");
-        int quantidade = Integer.parseInt(sc.nextLine());
-        if (estoqueService.adicionarEstoque(produtoId, quantidade)) {
-            System.out.println("Estoque adicionado com sucesso.");
+    private void removerEstoque() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Estoque: ");
+        int id = scanner.nextInt();
+        estoqueService.removerEstoque(id);
+        System.out.println("Estoque removido com sucesso.");
+    }
+
+    private void consultarEstoquePorId() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Estoque: ");
+        int id = scanner.nextInt();
+        Estoque estoque = estoqueService.consultarEstoquePorId(id);
+
+        if (estoque != null) {
+            System.out.println("Estoque encontrado: Produto - " + estoque.getProduto().getNome() + ", Quantidade - " + estoque.getQuantidade() + ", Preço - " + estoque.getPreco());
         } else {
-            System.out.println("Produto não encontrado.");
+            System.out.println("Estoque não encontrado.");
         }
     }
 
-    private static void removerEstoque() {
+    private void consultarEstoquePorProduto() {
+        Scanner scanner = new Scanner(System.in);
+
         System.out.print("ID do Produto: ");
-        int produtoId = Integer.parseInt(sc.nextLine());
-        System.out.print("Quantidade a ser removida: ");
-        int quantidade = Integer.parseInt(sc.nextLine());
-        if (estoqueService.removerEstoque(produtoId, quantidade)) {
-            System.out.println("Estoque removido com sucesso.");
+        int produtoId = scanner.nextInt();
+        Produto produto = produtoService.consultarProdutoPorId(produtoId);
+        Estoque estoque = estoqueService.consultarEstoquePorProduto(produto);
+
+        if (estoque != null) {
+            System.out.println("Estoque encontrado: Produto - " + estoque.getProduto().getNome() + ", Quantidade - " + estoque.getQuantidade() + ", Preço - " + estoque.getPreco());
         } else {
-            System.out.println("Produto não encontrado.");
+            System.out.println("Estoque não encontrado.");
+        }
+    }
+
+    private void menuClientes() {
+        Scanner scanner = new Scanner(System.in);
+        int opcao;
+
+        do {
+            System.out.println("Cadastro de Clientes:");
+            System.out.println("1. Adicionar Cliente");
+            System.out.println("2. Atualizar Cliente");
+            System.out.println("3. Remover Cliente");
+            System.out.println("4. Consultar Cliente por ID");
+            System.out.println("5. Consultar Cliente por Nome");
+            System.out.println("0. Voltar");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    adicionarCliente();
+                    break;
+                case 2:
+                    atualizarCliente();
+                    break;
+                case 3:
+                    removerCliente();
+                    break;
+                case 4:
+                    consultarClientePorId();
+                    break;
+                case 5:
+                    consultarClientePorNome();
+                    break;
+                case 0:
+                    System.out.println("Voltando ao menu principal...");
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        } while (opcao != 0);
+    }
+
+    private void adicionarCliente() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("Telefone: ");
+        String telefone = scanner.nextLine();
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+        System.out.print("Cartão de Crédito: ");
+        String cartaoCredito = scanner.nextLine();
+        System.out.print("Endereço: ");
+        String endereco = scanner.nextLine();
+
+        Cliente cliente = new Cliente();
+        cliente.setNome(nome);
+        cliente.setTelefone(telefone);
+        cliente.setEmail(email);
+        cliente.setCartaoCredito(cartaoCredito);
+        cliente.setEndereco(endereco);
+
+        clienteService.adicionarCliente(cliente);
+        System.out.println("Cliente adicionado com sucesso.");
+    }
+
+    private void atualizarCliente() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Cliente: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // Limpar buffer do scanner
+        Cliente cliente = clienteService.consultarClientePorId(id);
+
+        if (cliente != null) {
+            System.out.print("Novo Nome (atual: " + cliente.getNome() + "): ");
+            String nome = scanner.nextLine();
+            System.out.print("Novo Telefone (atual: " + cliente.getTelefone() + "): ");
+            String telefone = scanner.nextLine();
+            System.out.print("Novo Email (atual: " + cliente.getEmail() + "): ");
+            String email = scanner.nextLine();
+            System.out.print("Novo Cartão de Crédito (atual: " + cliente.getCartaoCredito() + "): ");
+            String cartaoCredito = scanner.nextLine();
+            System.out.print("Novo Endereço (atual: " + cliente.getEndereco() + "): ");
+            String endereco = scanner.nextLine();
+
+            cliente.setNome(nome);
+            cliente.setTelefone(telefone);
+            cliente.setEmail(email);
+            cliente.setCartaoCredito(cartaoCredito);
+            cliente.setEndereco(endereco);
+
+            clienteService.atualizarCliente(cliente);
+            System.out.println("Cliente atualizado com sucesso.");
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
+    }
+
+    private void removerCliente() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Cliente: ");
+        int id = scanner.nextInt();
+        clienteService.removerCliente(id);
+        System.out.println("Cliente removido com sucesso.");
+    }
+
+    private void consultarClientePorId() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Cliente: ");
+        int id = scanner.nextInt();
+        Cliente cliente = clienteService.consultarClientePorId(id);
+
+        if (cliente != null) {
+            System.out.println("Cliente encontrado: " + cliente.getNome());
+        } else {
+            System.out.println("Cliente não encontrado.");
+        }
+    }
+
+    private void consultarClientePorNome() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Nome do Cliente: ");
+        String nome = scanner.nextLine();
+        List<Cliente> clientes = clienteService.consultarClientePorNome(nome);
+
+        if (!clientes.isEmpty()) {
+            for (Cliente cliente : clientes) {
+                System.out.println("Cliente encontrado: " + cliente.getNome());
+            }
+        } else {
+            System.out.println("Nenhum cliente encontrado.");
+        }
+    }
+
+    private void menuRealizarPedido() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Cliente: ");
+        int clienteId = scanner.nextInt();
+        scanner.nextLine();
+        Cliente cliente = clienteService.consultarClientePorId(clienteId);
+
+        if (cliente == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+
+        char adicionarMais;
+        do {
+            System.out.print("ID do Produto: ");
+            int produtoId = scanner.nextInt();
+            scanner.nextLine();
+            Produto produto = produtoService.consultarProdutoPorId(produtoId);
+
+            if (produto == null) {
+                System.out.println("Produto não encontrado.");
+                return;
+            }
+
+            System.out.print("Quantidade: ");
+            int quantidade = scanner.nextInt();
+
+            Estoque estoque = estoqueService.consultarEstoquePorProduto(produto);
+
+            if (estoque == null || estoque.getQuantidade() < quantidade) {
+                System.out.println("Estoque insuficiente.");
+                return;
+            }
+
+            ItemPedido item = new ItemPedido();
+            item.setProduto(produto);
+            item.setQuantidade(quantidade);
+            item.setPreco(estoque.getPreco());
+
+            pedido.adicionarItem(item);
+
+            System.out.print("Deseja adicionar mais produtos? (S/N): ");
+            adicionarMais = scanner.next().charAt(0);
+        } while (adicionarMais == 'S' || adicionarMais == 's');
+
+        pedidoService.adicionarPedido(pedido);
+        System.out.println("Pedido realizado com sucesso.");
+    }
+
+    private void menuConsultarPedido() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Pedido: ");
+        int pedidoId = scanner.nextInt();
+        Pedido pedido = pedidoService.consultarPedidoPorId(pedidoId);
+
+        if (pedido != null) {
+            System.out.println("Pedido encontrado: Cliente - " + pedido.getCliente().getNome());
+            for (ItemPedido item : pedido.getItens()) {
+                System.out.println("Produto: " + item.getProduto().getNome() + ", Quantidade: " + item.getQuantidade() + ", Preço: " + item.getPreco());
+            }
+        } else {
+            System.out.println("Pedido não encontrado.");
+        }
+    }
+
+    private void salvarDados() {
+        try {
+            fornecedorService.salvarFornecedores();
+            produtoService.salvarProdutos();
+            estoqueService.salvarEstoques();
+            clienteService.salvarClientes();
+            pedidoService.salvarPedidos();
+            System.out.println("Dados salvos com sucesso.");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar dados: " + e.getMessage());
+        }
+    }
+
+    private void carregarDados() {
+        try {
+            fornecedorService.carregarFornecedores();
+            produtoService.carregarProdutos();
+            estoqueService.carregarEstoques();
+            clienteService.carregarClientes();
+            pedidoService.carregarPedidos();
+            System.out.println("Dados carregados com sucesso.");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Erro ao carregar dados: " + e.getMessage());
         }
     }
 }

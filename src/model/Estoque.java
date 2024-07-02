@@ -1,30 +1,42 @@
 package model;
 
-public class Estoque {
-    private Integer quantidade;
-    private Double preco;
+import java.io.Serializable;
 
-    public Estoque() {
+public class Estoque implements Serializable {
+    private int id;
+    private Produto produto;
+    private int quantidade;
+    private double preco;
+
+    public int getId() {
+        return id;
     }
 
-    public Estoque(Integer quantidade, Double preco) {
-        this.quantidade = quantidade;
-        this.preco = preco;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Integer getQuantidade() {
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(Integer quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 
-    public Double getPreco() {
+    public double getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(double preco) {
         this.preco = preco;
     }
 }

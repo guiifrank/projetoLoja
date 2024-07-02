@@ -1,40 +1,69 @@
 package service;
 
+import model.Estoque;
 import model.Produto;
 
-public class EstoqueService {
-    private ProdutoService produtoService;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
-    public EstoqueService(ProdutoService produtoService) {
-        this.produtoService = produtoService;
+public class EstoqueService {
+    private List<Estoque> estoques;
+
+    public EstoqueService() {
+        estoques = new ArrayList<>();
     }
 
-    public boolean adicionarEstoque(int produtoId, int quantidade) {
-        Produto produto = produtoService.consultarProdutoPorId(produtoId);
-        if (produto != null) {
-            produto.setQuantEstoque(produto.getQuantEstoque() + quantidade);
-            produtoService.alterarProduto(produto);
-            return true;
-        } else {
-            System.out.println("Produto não encontrado. Estoque não adicionado.");
-            return false;
+    public void adicionarEstoque(Estoque estoque) {
+        estoques.add(estoque);
+    }
+
+    public void atualizarEstoque(Estoque estoque) {
+        Estoque estoqueExistente = consultarEstoquePorId(estoque.getId());
+        if (estoqueExistente != null) {
+            estoqueExistente.setQuantidade(estoque.getQuantidade());
+            estoqueExistente.setPreco(estoque.getPreco());
+            estoqueExistente.setProduto(estoque.getProduto());
         }
     }
 
-    public boolean removerEstoque(int produtoId, int quantidade) {
-        Produto produto = produtoService.consultarProdutoPorId(produtoId);
-        if (produto != null) {
-            if (produto.getQuantEstoque() >= quantidade) {
-                produto.setQuantEstoque(produto.getQuantEstoque() - quantidade);
-                produtoService.alterarProduto(produto);
-                return true;
-            } else {
-                System.out.println("Quantidade em estoque insuficiente. Estoque não removido.");
-                return false;
+    public void removerEstoque(int id) {
+        Estoque estoque = consultarEstoquePorId(id);
+        if (estoque != null) {
+            estoques.remove(estoque);
+        }
+    }
+
+    public Estoque consultarEstoquePorId(int id) {
+        for (Estoque estoque : estoques) {
+            if (estoque.getId() == id) {
+                return estoque;
             }
-        } else {
-            System.out.println("Produto não encontrado. Estoque não removido.");
-            return false;
+        }
+        return null;
+    }
+
+    public Estoque consultarEstoquePorProduto(Produto produto) {
+        for (Estoque estoque : estoques) {
+            if (estoque.getProduto().equals(produto)) {
+                return estoque;
+            }
+        }
+        return null;
+    }
+
+    public void salvarEstoques() throws IOException {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("estoques.dat"))) {
+            oos.writeObject(estoques);
+        }
+    }
+
+    public void carregarEstoques() throws IOException, ClassNotFoundException {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("estoques.dat"))) {
+            estoques = (List<Estoque>) ois.readObject();
+        } catch (FileNotFoundException e) {
+            // Arquivo não encontrado, iniciar com lista vazia
+            estoques = new ArrayList<>();
         }
     }
 }
