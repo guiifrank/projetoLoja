@@ -32,6 +32,9 @@ public class ClienteService {
         Cliente cliente = consultarClientePorId(id);
         if (cliente != null) {
             clientes.remove(cliente);
+            System.out.println("Cliente removido com sucesso!");
+        } else {
+            System.out.println("Cliente nao encontrado");
         }
     }
 
@@ -64,7 +67,6 @@ public class ClienteService {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("clientes.dat"))) {
             clientes = (List<Cliente>) ois.readObject();
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, iniciar com lista vazia
             clientes = new ArrayList<>();
         }
     }

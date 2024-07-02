@@ -30,6 +30,9 @@ public class ProdutoService {
         Produto produto = consultarProdutoPorId(id);
         if (produto != null) {
             produtos.remove(produto);
+            System.out.println("Produto removido com sucesso!");
+        } else {
+            System.out.println("Produto nao encontrado.");
         }
     }
 
@@ -62,7 +65,6 @@ public class ProdutoService {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("produtos.dat"))) {
             produtos = (List<Produto>) ois.readObject();
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, iniciar com lista vazia
             produtos = new ArrayList<>();
         }
     }

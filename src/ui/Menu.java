@@ -134,7 +134,7 @@ public class Menu {
 
         System.out.print("ID do Fornecedor: ");
         int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar buffer do scanner
+        scanner.nextLine();
         Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
 
         if (fornecedor != null) {
@@ -165,7 +165,6 @@ public class Menu {
         System.out.print("ID do Fornecedor: ");
         int id = scanner.nextInt();
         fornecedorService.removerFornecedor(id);
-        System.out.println("Fornecedor removido com sucesso.");
     }
 
     private void consultarFornecedorPorId() {
@@ -268,7 +267,7 @@ public class Menu {
 
         System.out.print("ID do Produto: ");
         int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar buffer do scanner
+        scanner.nextLine();
         Produto produto = produtoService.consultarProdutoPorId(id);
 
         if (produto != null) {
@@ -302,7 +301,6 @@ public class Menu {
         System.out.print("ID do Produto: ");
         int id = scanner.nextInt();
         produtoService.removerProduto(id);
-        System.out.println("Produto removido com sucesso.");
     }
 
     private void consultarProdutoPorId() {
@@ -380,7 +378,7 @@ public class Menu {
 
         System.out.print("ID do Produto: ");
         int produtoId = scanner.nextInt();
-        scanner.nextLine(); // Limpar buffer do scanner
+        scanner.nextLine();
         System.out.print("Quantidade: ");
         int quantidade = scanner.nextInt();
         System.out.print("Preço: ");
@@ -406,7 +404,7 @@ public class Menu {
 
         System.out.print("ID do Estoque: ");
         int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar buffer do scanner
+        scanner.nextLine();
         Estoque estoque = estoqueService.consultarEstoquePorId(id);
 
         if (estoque != null) {
@@ -533,7 +531,7 @@ public class Menu {
 
         System.out.print("ID do Cliente: ");
         int id = scanner.nextInt();
-        scanner.nextLine(); // Limpar buffer do scanner
+        scanner.nextLine();
         Cliente cliente = clienteService.consultarClientePorId(id);
 
         if (cliente != null) {
@@ -567,7 +565,6 @@ public class Menu {
         System.out.print("ID do Cliente: ");
         int id = scanner.nextInt();
         clienteService.removerCliente(id);
-        System.out.println("Cliente removido com sucesso.");
     }
 
     private void consultarClientePorId() {

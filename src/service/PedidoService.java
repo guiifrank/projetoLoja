@@ -54,7 +54,6 @@ public class PedidoService {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("pedidos.dat"))) {
             pedidos = (List<Pedido>) ois.readObject();
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, iniciar com lista vazia
             pedidos = new ArrayList<>();
         }
     }

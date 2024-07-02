@@ -31,6 +31,9 @@ public class FornecedorService {
         Fornecedor fornecedor = consultarFornecedorPorId(id);
         if (fornecedor != null) {
             fornecedores.remove(fornecedor);
+            System.out.println("Fornecedor removida com sucesso!");
+        } else {
+            System.out.println("Fornecedor nao encontrado.");
         }
     }
 
@@ -63,7 +66,6 @@ public class FornecedorService {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("fornecedores.dat"))) {
             fornecedores = (List<Fornecedor>) ois.readObject();
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, iniciar com lista vazia
             fornecedores = new ArrayList<>();
         }
     }

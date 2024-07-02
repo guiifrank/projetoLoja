@@ -31,6 +31,9 @@ public class EstoqueService {
         Estoque estoque = consultarEstoquePorId(id);
         if (estoque != null) {
             estoques.remove(estoque);
+            System.out.println("Estoque removido com sucesso!");
+        } else {
+            System.out.println("Estoque nao encontrado.");
         }
     }
 
@@ -62,7 +65,6 @@ public class EstoqueService {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("estoques.dat"))) {
             estoques = (List<Estoque>) ois.readObject();
         } catch (FileNotFoundException e) {
-            // Arquivo não encontrado, iniciar com lista vazia
             estoques = new ArrayList<>();
         }
     }
