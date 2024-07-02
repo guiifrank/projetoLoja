@@ -19,7 +19,7 @@ public class Menu {
         estoqueService = new EstoqueService();
         clienteService = new ClienteService();
         pedidoService = new PedidoService();
-        carregarDados();
+        carregarDados(); //excluir comentario
     }
 
     public void exibirMenu() {
