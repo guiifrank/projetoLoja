@@ -39,4 +39,14 @@ public class Estoque implements Serializable {
     public void setPreco(double preco) {
         this.preco = preco;
     }
+
+    @Override
+    public String toString() {
+        return "Estoque{" +
+                "id=" + id +
+                ", produto=" + produto +
+                ", quantidade=" + quantidade +
+                ", preco=" + preco +
+                '}';
+    }
 }

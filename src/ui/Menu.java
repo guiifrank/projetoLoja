@@ -101,7 +101,7 @@ public class Menu {
                     consultarFornecedorPorNome();
                     break;
                 case 6:
-                    menuAtualizarElemento();
+                    AtualizarElementoFornecedor();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -180,7 +180,7 @@ public class Menu {
         Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(id);
 
         if (fornecedor != null) {
-            System.out.println("Fornecedor encontrado: " + fornecedor.getNome());
+            System.out.println("Fornecedor encontrado: " + fornecedor);
         } else {
             System.out.println("Fornecedor não encontrado.");
         }
@@ -195,7 +195,7 @@ public class Menu {
 
         if (!fornecedores.isEmpty()) {
             for (Fornecedor fornecedor : fornecedores) {
-                System.out.println("Fornecedor encontrado: " + fornecedor.getNome());
+                System.out.println("Fornecedor encontrado: " + fornecedor);
             }
         } else {
             System.out.println("Nenhum fornecedor encontrado.");
@@ -213,6 +213,7 @@ public class Menu {
             System.out.println("3. Remover Produto");
             System.out.println("4. Consultar Produto por ID");
             System.out.println("5. Consultar Produto por Nome");
+            System.out.println("6. Atualizar elemento de um Produto");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -232,6 +233,9 @@ public class Menu {
                     break;
                 case 5:
                     consultarProdutoPorNome();
+                    break;
+                case 6:
+                    AtualizarElementoProduto();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -349,6 +353,7 @@ public class Menu {
             System.out.println("3. Remover Estoque");
             System.out.println("4. Consultar Estoque por ID");
             System.out.println("5. Consultar Estoque por Produto");
+            System.out.println("6. Atualizar elemento de Estoque");
             System.out.println("0. Voltar");
             System.out.print("Escolha uma opção: ");
             opcao = scanner.nextInt();
@@ -368,6 +373,9 @@ public class Menu {
                     break;
                 case 5:
                     consultarEstoquePorProduto();
+                    break;
+                case 6:
+                    AtualizarElementoEstoque();
                     break;
                 case 0:
                     System.out.println("Voltando ao menu principal...");
@@ -565,8 +573,6 @@ public class Menu {
             }
         } catch (ClienteException e) {
             System.out.println("Erro ao atualizar cliente" + e.getMessage());
-        } catch(Exception e) {
-            System.out.println("Erro ao atualizar cliente" + e.getMessage());
         } finally {
             scanner.close();
         }
@@ -595,7 +601,7 @@ public class Menu {
         Cliente cliente = clienteService.consultarClientePorId(id);
 
         if (cliente != null) {
-            System.out.println("Cliente encontrado: " + cliente.getNome());
+            System.out.println("Cliente encontrado: " + cliente);
         } else {
             System.out.println("Cliente não encontrado.");
         }
@@ -610,7 +616,7 @@ public class Menu {
 
         if (!clientes.isEmpty()) {
             for (Cliente cliente : clientes) {
-                System.out.println("Cliente encontrado: " + cliente.getNome());
+                System.out.println("Cliente encontrado: " + cliente);
             }
         } else {
             System.out.println("Nenhum cliente encontrado.");
@@ -686,7 +692,7 @@ public class Menu {
             System.out.println("Pedido não encontrado.");
         }
     }
-    private void menuAtualizarElemento() {
+    private void AtualizarElementoFornecedor() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("ID do Fornecedor: ");
@@ -735,6 +741,96 @@ public class Menu {
             System.out.println("Elemento atualizado com sucesso.");
         } else {
             System.out.println("Fornecedor não encontrado.");
+        }
+    }
+    private void AtualizarElementoProduto() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Produto: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Produto produto = produtoService.consultarProdutoPorId(id);
+
+        if (produto != null) {
+            System.out.println("Produto encontrado: " + produto);
+            System.out.println("Escolha o campo a ser atualizado:");
+            System.out.println("1. Nome");
+            System.out.println("2. Descrição");
+            System.out.println("3. Fornecedor");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Novo Nome: ");
+                    String novoNome = scanner.nextLine();
+                    produto.setNome(novoNome);
+                    break;
+                case 2:
+                    System.out.print("Nova Descrição: ");
+                    String novaDescricao = scanner.nextLine();
+                    produto.setDescricao(novaDescricao);
+                    break;
+                case 3:
+                    System.out.print("ID do novo Fornecedor: ");
+                    int fornecedorId = scanner.nextInt();
+                    Fornecedor fornecedor = fornecedorService.consultarFornecedorPorId(fornecedorId);
+                    if (fornecedor != null) {
+                        produto.setFornecedor(fornecedor);
+                    } else {
+                        System.out.println("Fornecedor não encontrado.");
+                        return;
+                    }
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    return;
+            }
+
+            produtoService.atualizarProduto(produto);
+            System.out.println("Elemento atualizado com sucesso.");
+        } else {
+            System.out.println("Produto não encontrado.");
+        }
+    }
+    private void AtualizarElementoEstoque() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("ID do Estoque: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        Estoque estoque = estoqueService.consultarEstoquePorId(id);
+
+        if (estoque != null) {
+            System.out.println("Estoque encontrado: " + estoque);
+            System.out.println("Escolha o campo a ser atualizado:");
+            System.out.println("1. Quantidade");
+            System.out.println("2. Preço");
+            System.out.print("Opção: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Nova Quantidade: ");
+                    int novaQuantidade = scanner.nextInt();
+                    estoque.setQuantidade(novaQuantidade);
+                    break;
+                case 2:
+                    System.out.print("Novo Preço: ");
+                    double novoPreco = scanner.nextDouble();
+                    estoque.setPreco(novoPreco);
+                    break;
+                default:
+                    System.out.println("Opção inválida.");
+                    return;
+            }
+
+            estoqueService.atualizarEstoque(estoque);
+            System.out.println("Elemento atualizado com sucesso.");
+        } else {
+            System.out.println("Estoque não encontrado.");
         }
     }
 

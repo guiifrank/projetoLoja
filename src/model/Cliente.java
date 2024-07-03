@@ -57,4 +57,14 @@ public class Cliente implements Serializable {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }

@@ -32,6 +32,6 @@ public class ItemPedido implements Serializable {
     }
 
     public double getTotal() {
-        return quantidade * preco;
+        return quantidade * preco * 1.17;
     }
 }
