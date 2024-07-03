@@ -1,6 +1,8 @@
 package service;
 
+import exception.ClienteException;
 import model.Cliente;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ public class ClienteService {
         clientes.add(cliente);
     }
 
-    public void atualizarCliente(Cliente cliente) {
+    public void atualizarCliente(Cliente cliente) throws ClienteException {
         Cliente clienteExistente = consultarClientePorId(cliente.getId());
         if (clienteExistente != null) {
             clienteExistente.setNome(cliente.getNome());
@@ -24,16 +26,18 @@ public class ClienteService {
             clienteExistente.setEmail(cliente.getEmail());
             clienteExistente.setCartaoCredito(cliente.getCartaoCredito());
             clienteExistente.setEndereco(cliente.getEndereco());
+        } else {
+            throw new ClienteException("Cliente não encontrado");
         }
     }
 
-    public void removerCliente(int id) {
+    public void removerCliente(int id) throws ClienteException {
         Cliente cliente = consultarClientePorId(id);
         if (cliente != null) {
             clientes.remove(cliente);
             System.out.println("Cliente removido com sucesso!");
         } else {
-            System.out.println("Cliente nao encontrado");
+            throw new ClienteException("Cliente não encontrado");
         }
     }
 

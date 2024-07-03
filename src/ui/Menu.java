@@ -1,5 +1,6 @@
 package ui;
 
+import exception.ClienteException;
 import model.*;
 import service.*;
 import java.io.*;
@@ -533,42 +534,57 @@ public class Menu {
     private void atualizarCliente() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("ID do Cliente: ");
-        int id = scanner.nextInt();
-        scanner.nextLine();
-        Cliente cliente = clienteService.consultarClientePorId(id);
+        try{
+            System.out.print("ID do Cliente: ");
+            int id = scanner.nextInt();
+            scanner.nextLine();
+            Cliente cliente = clienteService.consultarClientePorId(id);
 
-        if (cliente != null) {
-            System.out.print("Novo Nome (atual: " + cliente.getNome() + "): ");
-            String nome = scanner.nextLine();
-            System.out.print("Novo Telefone (atual: " + cliente.getTelefone() + "): ");
-            String telefone = scanner.nextLine();
-            System.out.print("Novo Email (atual: " + cliente.getEmail() + "): ");
-            String email = scanner.nextLine();
-            System.out.print("Novo Cartão de Crédito (atual: " + cliente.getCartaoCredito() + "): ");
-            String cartaoCredito = scanner.nextLine();
-            System.out.print("Novo Endereço (atual: " + cliente.getEndereco() + "): ");
-            String endereco = scanner.nextLine();
+            if (cliente != null) {
+                System.out.print("Novo Nome (atual: " + cliente.getNome() + "): ");
+                String nome = scanner.nextLine();
+                System.out.print("Novo Telefone (atual: " + cliente.getTelefone() + "): ");
+                String telefone = scanner.nextLine();
+                System.out.print("Novo Email (atual: " + cliente.getEmail() + "): ");
+                String email = scanner.nextLine();
+                System.out.print("Novo Cartão de Crédito (atual: " + cliente.getCartaoCredito() + "): ");
+                String cartaoCredito = scanner.nextLine();
+                System.out.print("Novo Endereço (atual: " + cliente.getEndereco() + "): ");
+                String endereco = scanner.nextLine();
 
-            cliente.setNome(nome);
-            cliente.setTelefone(telefone);
-            cliente.setEmail(email);
-            cliente.setCartaoCredito(cartaoCredito);
-            cliente.setEndereco(endereco);
+                cliente.setNome(nome);
+                cliente.setTelefone(telefone);
+                cliente.setEmail(email);
+                cliente.setCartaoCredito(cartaoCredito);
+                cliente.setEndereco(endereco);
 
-            clienteService.atualizarCliente(cliente);
-            System.out.println("Cliente atualizado com sucesso.");
-        } else {
-            System.out.println("Cliente não encontrado.");
+                clienteService.atualizarCliente(cliente);
+                System.out.println("Cliente atualizado com sucesso.");
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } catch (ClienteException e) {
+            System.out.println("Erro ao atualizar cliente" + e.getMessage());
+        } catch(Exception e) {
+            System.out.println("Erro ao atualizar cliente" + e.getMessage());
+        } finally {
+            scanner.close();
         }
     }
 
     private void removerCliente() {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.print("ID do Cliente: ");
-        int id = scanner.nextInt();
-        clienteService.removerCliente(id);
+        try {
+            System.out.print("ID do Cliente: ");
+            int id = scanner.nextInt();
+            clienteService.removerCliente(id);
+        } catch (ClienteException e) {
+            System.out.println("Erro ao remover cliente: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro inesperado: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
     }
 
     private void consultarClientePorId() {
