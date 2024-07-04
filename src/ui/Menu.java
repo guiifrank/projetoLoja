@@ -115,6 +115,9 @@ public class Menu {
     private void adicionarFornecedor() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("id:");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("Descrição: ");
@@ -125,6 +128,7 @@ public class Menu {
         String email = scanner.nextLine();
 
         Fornecedor fornecedor = new Fornecedor();
+        fornecedor.setId(id);
         fornecedor.setNome(nome);
         fornecedor.setDescricao(descricao);
         fornecedor.setTelefone(telefone);
@@ -249,6 +253,9 @@ public class Menu {
     private void adicionarProduto() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("Descrição: ");
@@ -263,6 +270,7 @@ public class Menu {
         }
 
         Produto produto = new Produto();
+        produto.setId(id);
         produto.setNome(nome);
         produto.setDescricao(descricao);
         produto.setFornecedor(fornecedor);
@@ -517,6 +525,9 @@ public class Menu {
     private void adicionarCliente() {
         Scanner scanner = new Scanner(System.in);
 
+        System.out.println("id: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         System.out.print("Telefone: ");
@@ -529,6 +540,7 @@ public class Menu {
         String endereco = scanner.nextLine();
 
         Cliente cliente = new Cliente();
+        cliente.setId(id);
         cliente.setNome(nome);
         cliente.setTelefone(telefone);
         cliente.setEmail(email);
